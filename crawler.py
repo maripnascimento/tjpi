@@ -40,7 +40,6 @@ def get_lawsuit(cnj):
 	#precisa colocar o verify nesse caso pq a url so eh http e nao https
 	lawsuit = parser(response.content)
 	
-	
 	return lawsuit
 
 def parser(data):
@@ -58,7 +57,7 @@ def parser(data):
 	'get_people': get_people(parsed)
 	}
 	
-	return parsed.text
+	return lawsuit
 
 def get_number(data):
 	print('Extraindo o numero do processo')
@@ -86,7 +85,7 @@ def get_activity_list(data):
 	for tr in trs:
 		tds = tr.find_all('td')
 		date_role = normalize_text(tds[1].text)
-		date = extract_by_regex(re.compile(r'(\d{2}/\d{2}/\d{2,4})',date_role))
+		date = extract_by_regex(re.compile(r'(\d{2}/\d{2}/\d{2,4})'), date_role)
 		activity = {
 		'date': date,
 		'text': normalize_text(tds[2].text)
@@ -137,7 +136,7 @@ def get_lawyers(data):
 		
 def extract_by_regex(regex,data):
 
-	result = regex.search(data,re.IGNORECASE)
+	result = regex.search(data)
 	if result:
 		
 		return result.group(1).strip()	
